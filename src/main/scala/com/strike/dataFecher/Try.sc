@@ -1,24 +1,23 @@
-import java.net.URL
 
-import com.typesafe.config.ConfigFactory
-import scala.xml.XML
-import scalaj.http.Http
-import java.io.File
+import _root_.com.strike.ml.LSH
 
-def getImagesFromList(url:String,size:String):Seq[String]={
-  val page=Http(url).asString
-  val entrys= XML.loadString(page.body) \"entry"\ "image"
+val l=new LSH(6,8)
+l.index(Array(2,3,4,5,6,7,8,9))
+l.index(Array(1,2,3,4,5,6,7,8))
+l.index(Array(10,12,99,1,5,31,2,3))
+l.query(Array(1,2,3,4,5,6,7,7),10)
 
-  val urlList = for {
-    item <- entrys
-    if (item \ "@height").text == size
-  } yield item.text
-  return urlList
+def dotProduct(as: Array[Double], bs: Array[Int]):Double = {
+  require(as.size == bs.size)
+  (for ((a, b) <- as zip bs) yield a * b) sum
 }
 
-val page=getImagesFromList("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/toppaidapplications/limit=10/xml","53")
-val u="http://a1569.phobos.apple.com/us/r30/Purple2/v4/4c/d0/b6/4cd0b65a-77ed-57a9-4617-07ce170df990/mzl.ypvnwazh.53x53-50.png?mu"
-val name=u.substring(u.lastIndexOf("/")+1)
-val s=if(name.contains("?")) name.substring(0,name.indexOf("?"))
-val conf = ConfigFactory.load()
-conf.getString("free")
+def dot(first:Array[Array[Double]],second:Array[Int]):Array[Double]={
+  val result=new Array[Double](second.size)
+  for(i<-0.to(second.size)){
+    result(i)=dotProduct(first(i),second)
+  }
+  return result
+}
+
+dotProduct(Array(1,2,3),Array(1,1,1))
