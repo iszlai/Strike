@@ -9,11 +9,11 @@ import scala.collection.mutable.Set
  */
 class LSH(hash_size: Int, input_dim: Int, num_hashtables: Int = 1 /*,storage_config=None, matrices_filename=None, overwrite=false */) {
 
-  val uniform_planes = init_uniform_planes(hash_size, input_dim, num_hashtables);
-  val hashTables = init_hashtables();
+  val uniformPlanes = initUniformPlanes(hash_size, input_dim, num_hashtables);
+  val hashTables = initHashTables();
 
   def index(input_point: Array[Int]) = {
-    val hashToIndex = hash(uniform_planes(0), input_point);
+    val hashToIndex = hash(uniformPlanes(0), input_point);
     val value = arrayToString(input_point)
     hashTables.appendValue(hashToIndex, value)
   }
@@ -34,9 +34,9 @@ class LSH(hash_size: Int, input_dim: Int, num_hashtables: Int = 1 /*,storage_con
     return result
   }
 
-  def dotProduct(as: Array[Double], bs: Array[Int]): Double = {
-    require(as.size == bs.size)
-    (for ((a, b) <- as zip bs) yield a * b) sum
+  def dotProduct(first: Array[Double], second: Array[Int]): Double = {
+    require(first.size == second.size)
+    (for ((a, b) <- first zip second) yield a * b) sum
   }
 
   def arrayToString(array: Array[Int]): String = {
@@ -47,26 +47,26 @@ class LSH(hash_size: Int, input_dim: Int, num_hashtables: Int = 1 /*,storage_con
     return s.toString
   }
 
-  def query(searchItem: Array[Int], numberOfResults: Int):Set[String] = {
-    val hashOfQuery = hash(uniform_planes(0), searchItem)
+  def query(searchItem: Array[Int], numberOfResults: Int): Set[String] = {
+    val hashOfQuery = hash(uniformPlanes(0), searchItem)
     val candidates = hashTables.getList(hashOfQuery)
-    return  candidates
+    return candidates
   }
 
-  def init_uniform_planes(hash_size: Int, input_dim: Int, num_hashtables: Int): IndexedSeq[Array[Array[Double]]] = {
-    return for (x <- 0 to num_hashtables) yield {
-      generate_uniform_planes(hash_size, input_dim)
+  def initUniformPlanes(hashSize: Int, inputDimension: Int, numberOfHashTables: Int): IndexedSeq[Array[Array[Double]]] = {
+    return for (x <- 0 to numberOfHashTables) yield {
+      generateUniformPlanes(hashSize, inputDimension)
     };
   }
 
   //Generate uniformly distributed hyperplanes and return it as a 2D array.
-  def generate_uniform_planes(rows: Int, cols: Int): Array[Array[Double]] = {
+  def generateUniformPlanes(rows: Int, cols: Int): Array[Array[Double]] = {
     val nd = new NormalDistribution()
     Array.fill[Double](rows, cols)(nd.sample)
   }
 
-  def init_hashtables(): Storage[String,String] = {
-    return new Storage[String,String];
+  def initHashTables(): Storage[String, String] = {
+    return new Storage[String, String];
   }
 }
 
