@@ -2,6 +2,8 @@ package com.strike.ml
 
 import org.apache.commons.math3.distribution.NormalDistribution
 
+import scala.collection.mutable.Set
+
 /**
  * Created by Lehel on 12/19/2014.
  */
@@ -45,13 +47,10 @@ class LSH(hash_size: Int, input_dim: Int, num_hashtables: Int = 1 /*,storage_con
     return s.toString
   }
 
-  def query(searchItem: Array[Int], numberOfResults: Int) = {
+  def query(searchItem: Array[Int], numberOfResults: Int):Set[String] = {
     val hashOfQuery = hash(uniform_planes(0), searchItem)
     val candidates = hashTables.get_list(hashOfQuery)
-    for (i <- candidates) {
-      println(i)
-    }
-
+    return  candidates
   }
 
   def init_uniform_planes(hash_size: Int, input_dim: Int, num_hashtables: Int): IndexedSeq[Array[Array[Double]]] = {
