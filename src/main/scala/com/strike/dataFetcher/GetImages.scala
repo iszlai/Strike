@@ -1,4 +1,4 @@
-package com.strike.dataFecher
+package com.strike.dataFetcher
 
 import java.io.File
 import java.net.URL

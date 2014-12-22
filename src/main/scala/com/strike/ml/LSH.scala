@@ -7,9 +7,9 @@ import scala.collection.mutable.Set
 /**
  * Created by Lehel on 12/19/2014.
  */
-class LSH(hash_size: Int, input_dim: Int, num_hashtables: Int = 1 /*,storage_config=None, matrices_filename=None, overwrite=false */) {
+class LSH(hashSize: Int, inputDimension: Int, numberOfHashTables: Int = 1 ) {
 
-  val uniformPlanes = initUniformPlanes(hash_size, input_dim, num_hashtables);
+  val uniformPlanes = initUniformPlanes(hashSize, inputDimension, numberOfHashTables);
   val hashTables = initHashTables();
 
   def index(input_point: Array[Int]) = {
@@ -18,8 +18,8 @@ class LSH(hash_size: Int, input_dim: Int, num_hashtables: Int = 1 /*,storage_con
     hashTables.appendValue(hashToIndex, value)
   }
 
-  def hash(planes: Array[Array[Double]], input_point: Array[Int]): String = {
-    val projections = dot(planes, input_point)
+  def hash(planes: Array[Array[Double]], inputPoint: Array[Int]): String = {
+    val projections = dot(planes, inputPoint)
     val resultArray = for (i <- projections) yield {
       if (i > 0) "1" else "0"
     }
@@ -28,7 +28,7 @@ class LSH(hash_size: Int, input_dim: Int, num_hashtables: Int = 1 /*,storage_con
 
   def dot(first: Array[Array[Double]], second: Array[Int]): Array[Double] = {
     val result = new Array[Double](first.size)
-    for (i <- 0.to(first.size - 1)) {
+    for (i <- 0 to (first.size - 1)) {
       result(i) = dotProduct(first(i), second)
     }
     return result
