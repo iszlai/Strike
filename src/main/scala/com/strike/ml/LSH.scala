@@ -15,7 +15,7 @@ class LSH(hash_size: Int, input_dim: Int, num_hashtables: Int = 1 /*,storage_con
   def index(input_point: Array[Int]) = {
     val hashToIndex = hash(uniform_planes(0), input_point);
     val value = arrayToString(input_point)
-    hashTables.append_val(hashToIndex, value)
+    hashTables.appendValue(hashToIndex, value)
   }
 
   def hash(planes: Array[Array[Double]], input_point: Array[Int]): String = {
@@ -49,7 +49,7 @@ class LSH(hash_size: Int, input_dim: Int, num_hashtables: Int = 1 /*,storage_con
 
   def query(searchItem: Array[Int], numberOfResults: Int):Set[String] = {
     val hashOfQuery = hash(uniform_planes(0), searchItem)
-    val candidates = hashTables.get_list(hashOfQuery)
+    val candidates = hashTables.getList(hashOfQuery)
     return  candidates
   }
 
@@ -65,8 +65,8 @@ class LSH(hash_size: Int, input_dim: Int, num_hashtables: Int = 1 /*,storage_con
     Array.fill[Double](rows, cols)(nd.sample)
   }
 
-  def init_hashtables(): Storage = {
-    return new Storage;
+  def init_hashtables(): Storage[String,String] = {
+    return new Storage[String,String];
   }
 }
 
