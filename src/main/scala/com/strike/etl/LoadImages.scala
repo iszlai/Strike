@@ -4,7 +4,7 @@ import java.awt.FlowLayout
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
-import javax.swing.{JLabel, JFrame, ImageIcon}
+import javax.swing.{WindowConstants, JLabel, JFrame, ImageIcon}
 
 import akka.actor.{Inbox, Props, ActorSystem}
 import com.typesafe.config.ConfigFactory
@@ -47,6 +47,7 @@ object LoadImages {
 
   def display(img: BufferedImage): Unit = {
     val frame = new JFrame();
+    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(new FlowLayout());
     frame.getContentPane().add(new JLabel(new ImageIcon(img)));
     frame.pack();

@@ -1,5 +1,7 @@
 package com.strike.ml
 
+import java.util.Arrays
+
 import org.apache.commons.math3.distribution.NormalDistribution
 
 import scala.collection.mutable.Set
@@ -12,9 +14,9 @@ class LSH(hashSize: Int, inputDimension: Int, numberOfHashTables: Int = 1 ) {
   val uniformPlanes = initUniformPlanes(hashSize, inputDimension, numberOfHashTables);
   val hashTables = initHashTables();
 
-  def index(input_point: Array[Int]) = {
-    val hashToIndex = hash(uniformPlanes(0), input_point);
-    val value = arrayToString(input_point)
+  def index(inputPoint: Array[Int]) = {
+    val hashToIndex = hash(uniformPlanes(0), inputPoint);
+    val value = Arrays.toString(inputPoint)
     hashTables.appendValue(hashToIndex, value)
   }
 
@@ -37,14 +39,6 @@ class LSH(hashSize: Int, inputDimension: Int, numberOfHashTables: Int = 1 ) {
   def dotProduct(first: Array[Double], second: Array[Int]): Double = {
     require(first.size == second.size)
     (for ((a, b) <- first zip second) yield a * b) sum
-  }
-
-  def arrayToString(array: Array[Int]): String = {
-    val s = new StringBuilder
-    for (i <- array) {
-      s.append(i.toString)
-    }
-    return s.toString
   }
 
   def query(searchItem: Array[Int], numberOfResults: Int): Set[String] = {

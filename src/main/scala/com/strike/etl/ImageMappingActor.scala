@@ -1,6 +1,7 @@
 package com.strike.etl
 
 import java.awt.image.BufferedImage
+import java.util.Arrays
 
 import akka.actor.{ActorRef, Actor}
 import org.slf4j.LoggerFactory
@@ -22,7 +23,7 @@ class ImageMappingActor(fileAppender: ActorRef) extends Actor {
     val height = img.getHeight;
     val width = img.getWidth;
     val arr = img.getRGB(0, 0, width, height, null, 0, width);
-    arr.mkString(",")
+    Arrays.toString(arr)
   }
 
   def receive = {
