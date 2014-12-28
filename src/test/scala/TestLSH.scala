@@ -31,7 +31,7 @@ class TestLSH extends FunSuite with BeforeAndAfter with Matchers{
   }
 
   test("initHashTables creates storage"){
-    lsh.initHashTables shouldBe a [Storage[String,String]]
+    lsh.initHashTables shouldBe a [Storage[String,Array[Int]]]
   }
 
   test("hash returns the same for near points:(2,3,4,5,8,7,8,9)-(1,2,3,4,5,8,7,8)"){

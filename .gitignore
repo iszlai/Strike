@@ -69,3 +69,6 @@ img/
 .idea
 out
 resultData.csv
+java.hprof.txt
+*.csv
+*.csv

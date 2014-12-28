@@ -6,6 +6,8 @@ version := "1.0"
 
 scalaVersion := "2.11.4"
 
+mainClass in (Compile, run) := Some("com.strike.ml.LSHMain")
+
 libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.0.9" ,
   "com.typesafe.akka" %% "akka-actor" % "2.3.4" withSources() withJavadoc() ,

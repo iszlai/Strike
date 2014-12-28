@@ -8,6 +8,7 @@ import javax.swing.{ImageIcon, JLabel, WindowConstants, JFrame}
 import scala.collection.mutable
 import scala.collection.mutable.Set
 import scala.io.Source
+import scala.util.Random
 
 /**
  * Created by Lehel on 12/22/2014.
@@ -15,7 +16,6 @@ import scala.io.Source
 object LSHMain {
 
   def main(args: Array[String]): Unit = {
-
     testNearPointsRatio(5)
     testFarPointsRatio(5)
     println("-----")
@@ -31,13 +31,13 @@ object LSHMain {
     testNearPointsRatio(32)
     testFarPointsRatio(32)
 
-    val lsh=new LSH(200,2809,1)
+    val lsh=new LSH(180,2809,1)
     print("Indexing ")
     time{indexFile(lsh)}
     print("Query ")
     time{queryFile(lsh)}
     print("Display ")
-    val s=queryFile(lsh)
+    val s=randomQuery(lsh,true)
     time{displayResults(s)}
 
   }
@@ -93,32 +93,47 @@ object LSHMain {
 
   }
 
-  def queryFile(lsh: LSH):Set[String]={
-    val tfile=new File("testData.csv")
-    val s=Source.fromFile(tfile).getLines()
-    val q=createIntArrayFromString(s.next())
+  def testQuery(point:Array[Int],lsh: LSH):List[(Array[Int],Double)]={
+    return lsh.query(point,10)
+  }
+
+  def randomQuery(lsh: LSH,display:Boolean=false,file:String="testData.csv"):List[(Array[Int],Double)]={
+    val rand=new Random()
+    val lines = io.Source.fromFile(file).getLines
+    val queryLine = lines drop(rand.nextInt(299)) next
+    val q=createIntArrayFromString(queryLine)
+    if(display){displayImage("Querying this",q)}
     return lsh.query(q,10)
   }
 
+  def queryFile(lsh: LSH,file:String="testData2.csv"):List[(Array[Int],Double)]={
+    val tfile=new File(file)
+    val s=Source.fromFile(tfile).getLines()
+    val q=createIntArrayFromString(s.next())
+    time{
+      lsh.query(q,10)
+    }
+  }
 
-  def displayResults(results: Set[String]) {
+  def displayResults(results: List[(Array[Int],Double)]) {
     print("Result size:"+results.size+" ")
     if (results.size < 10) {
       for (i <- results) {
-        displayImage(createIntArrayFromString(i))
+        displayImage(i._2.toString,i._1)
       }
     }
   }
 
-  def displayImage(img:Array[Int]){
-    val i=new MemoryImageSource(53,53,img,0,53);
-    val im = Toolkit.getDefaultToolkit().createImage(i);
-    val frame = new JFrame();
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.getContentPane().setLayout(new FlowLayout());
-    frame.getContentPane().add(new JLabel(new ImageIcon(im)));
-    frame.pack();
-    frame.setVisible(true);
+  def displayImage(title:String,img:Array[Int]){
+      val i=new MemoryImageSource(53,53,img,0,53);
+      val im = Toolkit.getDefaultToolkit().createImage(i);
+      val frame = new JFrame();
+      frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+      frame.getContentPane().setLayout(new FlowLayout());
+      frame.getContentPane().add(new JLabel(new ImageIcon(im)));
+      frame.getContentPane().add(new JLabel(title));
+      frame.pack();
+      frame.setVisible(true);
   }
 
 
