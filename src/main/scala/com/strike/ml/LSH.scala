@@ -29,7 +29,7 @@ class LSH(hashSize: Int, inputDimension: Int, numberOfHashTables: Int = 1 ) {
 
   def dot(first: Array[Array[Double]], second: Array[Int]): Array[Double] = {
     val result = new Array[Double](first.size)
-    for (i <- 0 to (first.size - 1)) {
+    for (i <- 0 to  first.size-1 ) {
       result(i) = dotProduct(first(i), second)
     }
     return result
@@ -37,7 +37,11 @@ class LSH(hashSize: Int, inputDimension: Int, numberOfHashTables: Int = 1 ) {
 
   def dotProduct(first: Array[Double], second: Array[Int]): Double = {
     require(first.size == second.size)
-    (for ((a, b) <- first zip second) yield a * b) sum
+    var sum:Double=0;
+    for (i<- 0 until first.size){
+      sum+=first(i)*second(i)
+    }
+    sum
   }
 
   def query(searchItem: Array[Int], numberOfResults: Int): List[(Array[Int],Double)] = {

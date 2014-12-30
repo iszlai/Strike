@@ -14,10 +14,10 @@ import scala.util.Random
 object LSHMain {
 
   def main(args: Array[String]): Unit = {
-    val lsh = new LSH(50, 2809, 1)
+    val lsh = new LSH(150, 2809, 1)
     //testNearFarPoints
-    //timeIndexQueryDisplay(lsh)
-    //resultStats(lsh, 1000)
+    timeIndexQueryDisplay(lsh)
+   // resultStats(lsh, 1000)
 
   }
 
@@ -67,7 +67,7 @@ object LSHMain {
     if (display) {
       displayImage("Querying this", q)
     }
-    return lsh.query(q, 10)
+    return lsh.query(q, 5)
   }
 
   def time[R](block: => R): R = {
@@ -100,7 +100,7 @@ object LSHMain {
     val s = Source.fromFile(tfile).getLines()
     val q = createIntArrayFromString(s.next())
     time {
-      lsh.query(q, 10)
+      lsh.query(q, 5)
     }
   }
 
@@ -110,7 +110,7 @@ object LSHMain {
 
   def displayResults(results: List[(Array[Int], Double)]) {
     print("Result size:" + results.size + " ")
-    if (results.size < 10) {
+    if (results.size <= 10) {
       for (i <- results) {
         displayImage(i._2.toString, i._1)
       }
