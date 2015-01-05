@@ -15,7 +15,8 @@ libraryDependencies ++= Seq(
   "org.scalaj" %% "scalaj-http" % "1.1.0" withSources() withJavadoc(),
   "org.scala-lang.modules" %% "scala-xml" % "1.0.2" withSources() withJavadoc(),
   "com.typesafe" % "config" % "1.2.1",
+  "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test",
   "org.apache.commons" % "commons-math3" % "3.3",
-  "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
+  "net.debasishg" %% "redisclient" % "2.13"
 )
 

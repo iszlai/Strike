@@ -39,7 +39,7 @@ class TestLSH extends FunSuite with BeforeAndAfter with Matchers{
     val y=Array(1,2,3,4,5,8,7,8)
     val planes=lsh.uniformPlanes(0)
     info (scala.runtime.ScalaRunTime.stringOf (planes))
-    lsh.hash(planes,x) should equal(lsh.hash(planes,y))
+    LSH.hash(planes,x) should equal(LSH.hash(planes,y))
   }
 
   test("hash returns the different for far points:(2,3,4,5,8,7,8,9)-(10,12,99,1,5,31,2,3)"){
@@ -47,15 +47,15 @@ class TestLSH extends FunSuite with BeforeAndAfter with Matchers{
     val y=Array(10,12,99,1,5,31,2,3)
     val planes=lsh.uniformPlanes(0)
     info(scala.runtime.ScalaRunTime.stringOf(planes))
-    lsh.hash(planes,x) should not equal(lsh.hash(planes,y))
+    LSH.hash(planes,x) should not equal(LSH.hash(planes,y))
   }
 
   test("dot product for same size (1.0,2.0,3.0) - (1,1,1)"){
-    lsh.dotProduct(Array(1.0,2.0,3.0),Array(1,1,1)) shouldBe 6
+    LSH.dotProduct(Array(1.0,2.0,3.0),Array(1,1,1)) shouldBe 6
   }
 
   test("dot product for different size (1.0,2.0,3.0,4.0) - (1,1,1)"){
-    an [IllegalArgumentException] shouldBe thrownBy (lsh.dotProduct(Array(1.0,2.0,3.0,4.0),Array(1,1,1)))
+    an [IllegalArgumentException] shouldBe thrownBy (LSH.dotProduct(Array(1.0,2.0,3.0,4.0),Array(1,1,1)))
   }
 
   test("dot should return array of ones"){
@@ -64,7 +64,7 @@ class TestLSH extends FunSuite with BeforeAndAfter with Matchers{
     val e3=Array.fill(3)(1.0)
     val second=Array.fill(3)(1)
     val first=Array(e1,e2,e3)
-    lsh.dot(first,second) should equal(Array.fill(3)(3))
+    LSH.dot(first,second) should equal(Array.fill(3)(3))
   }
 
   test("can index (2,3,4,5,8,7,8,9)"){

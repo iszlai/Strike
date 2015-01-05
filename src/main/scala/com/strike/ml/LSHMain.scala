@@ -153,7 +153,7 @@ object LSHMain {
       val x = Array(2, 3, 4, 5, 8, 7, 8, 9)
       val y = Array(1, 2, 3, 4, 5, 8, 7, 8)
       val planes = lsh.uniformPlanes(0)
-      if (lsh.hash(planes, x) == lsh.hash(planes, y)) good8 += 1;
+      if (LSH.hash(planes, x) == LSH.hash(planes, y)) good8 += 1;
     }
     println("near " + hashSize + " bit " + ((good8 * 100) / repeatTime) + "%")
   }
@@ -165,7 +165,7 @@ object LSHMain {
       val x = Array(2, 3, 4, 5, 8, 7, 8, 9)
       val y = Array(10, 12, 99, 1, 5, 31, 2, 3)
       val planes = lsh.uniformPlanes(0)
-      if (lsh.hash(planes, x) != lsh.hash(planes, y)) good8 += 1;
+      if (LSH.hash(planes, x) != LSH.hash(planes, y)) good8 += 1;
     }
     println("far " + hashSize + " bit " + ((good8 * 100) / repeatTime) + "%")
   }
