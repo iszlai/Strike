@@ -18,6 +18,7 @@ object GetImages {
   def getFilename(item: String): String = {
     val name=item.substring(item.lastIndexOf("/") + 1)
     val s=if(name.contains("?")) name.substring(0,name.indexOf("?")) else name
+    logger.info(s"Getting file name $s")
     return s
   }
 
@@ -34,10 +35,11 @@ object GetImages {
 
   def saveFiles(fileURL:String):Unit={
         val list=getImagesFromList(fileURL,"53")
+        list.foreach(println _)
         for(item <- list) {
           logger.info(s"downloading ....$item")
           val fileName=getFilename(item)
-          new URL(item) #> new File("img\\"+fileName) !!
+          new URL(item) #> new File(fileName) !!
         }
   }
 

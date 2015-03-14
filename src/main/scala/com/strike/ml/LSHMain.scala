@@ -14,7 +14,7 @@ import scala.util.Random
 object LSHMain {
 
   def main(args: Array[String]): Unit = {
-    val lsh = new LSH(150, 2809, 1)
+    val lsh = new LSH(20, 2809, 1)
     //testNearFarPoints
     timeIndexQueryDisplay(lsh)
    // resultStats(lsh, 1000)
@@ -26,10 +26,12 @@ object LSHMain {
     time {
       indexFile(lsh)
     }
+
     print("Query ")
     time {
       queryFile(lsh)
     }
+
     print("Display ")
     val s = randomQuery(lsh, true)
     time {
@@ -59,11 +61,12 @@ object LSHMain {
     println(s"no results: %"+(noResults.toDouble/numberOfSamples)*100)
   }
 
-  def randomQuery(lsh: LSH, display: Boolean = false, file: String = "testData.csv"): List[(Array[Int], Double)] = {
+  def randomQuery(lsh: LSH, display: Boolean = false, file: String = "test2.csv"): List[(Array[Int], Double)] = {
     val rand = new Random()
-    val lines = io.Source.fromFile(file).getLines
-    val queryLine = lines drop (rand.nextInt(299)) next
-    val q = createIntArrayFromString(queryLine)
+    val lines = io.Source.fromFile(file).getLines.take(1).toList
+    //println("type" + lines.getClass.toString)
+    //val queryLine = lines drop (rand.nextInt(299)) next
+    val q = createIntArrayFromString(lines(0))
     if (display) {
       displayImage("Querying this", q)
     }
@@ -95,7 +98,7 @@ object LSHMain {
     print(s" $i nr of files ")
   }
 
-  def queryFile(lsh: LSH, file: String = "testData2.csv"): List[(Array[Int], Double)] = {
+  def queryFile(lsh: LSH, file: String = "test3.csv"): List[(Array[Int], Double)] = {
     val tfile = new File(file)
     val s = Source.fromFile(tfile).getLines()
     val q = createIntArrayFromString(s.next())
